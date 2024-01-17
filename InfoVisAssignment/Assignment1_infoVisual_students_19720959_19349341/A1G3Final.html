@@ -1,0 +1,116 @@
+<html>
+<head>
+    <title>Sean Carney / Cameron Carton : Assignment 1</title>
+	<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+<script async src='/cdn-cgi/bm/cv/669835187/api.js'></script></head>
+<body>
+    <table style="width: 850px" cellspacing="5" cellpadding="5">
+    <tbody>
+    <tr>
+    <td style="width: 200px; vertical-align: top;"><strong>Names:&nbsp;</strong></td>
+    <td style="vertical-align: top;">Sean Carney / Cameron Carton</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Student Numbers:</strong></td>
+    <td style="vertical-align: top;">19349341 / 19720959</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Dataset description:</strong></td>
+    <td style="vertical-align: top;">
+    <p><a href="https://www.kaggle.com/andytran11996/cost-of-living?select=cost-of-living-2018.csv" target="_blank" rel="noopener">Cost of Living by City 2018 Dataset</a>.</p>
+    <p>This dataset contains information pertaining to the cost of living in various cities around the world. The Indexes in the data show the relative Cost of Living(Plus Rent), Groceries Prices, Restaurant Prices, Rent, and the Local Purchasing Power of each city. The indexes are measured relative to New York City, USA which has an index of 100.00 in every category. </p>
+    </td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Initial questions:</strong></td>
+    <td style="vertical-align: top;">Which continent has the highest cost of living on average?, How does the cost of living vary within the continents?</td>
+    </tr>
+    </tbody>
+    </table>
+    <hr />
+  <div id="vis" class="container"></div>
+  <script>
+    const spec ={
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": {
+    "url": "https://raw.githubusercontent.com/scarney18/Cost-of-Living-Data/main/cost-of-living-continents.csv",
+    "format": {"type": "csv"}
+  },
+  "title": {"text": "Cost of Living by Continent Boxplot", "fontSize": 20},
+  "mark": {"type": "boxplot", 
+  "extent": 1, 
+  "size": 30
+  },
+  "width": 500,
+  "height": 500,
+  "encoding": {
+    "x": {
+      "field": "Continent",
+      "type": "nominal",
+      "title": "Continent",
+      "axis": {"labelAngle": 0}
+    },
+    "y": {
+      "field": "Cost of Living Index",
+      "type": "quantitative",
+      "title": "Cost of Living Index",
+      "scale": {"zero": false}
+    },
+    "tooltip": {"field": "City"},
+    "color": {
+      "field": "Continent",
+      "type": "nominal",
+      "scale": {
+        "range": [
+          "#f58625",
+          "#e8d543",
+          "#536cdb",
+          "#328028",
+          "#e30b0b",
+          "#a451ed"
+        ]
+      }
+    }
+  },
+  "config": {}
+};
+
+    vegaEmbed("#vis", spec, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+  </script>
+    <hr />
+<table style="width: 850px;" cellspacing="5" cellpadding="5">
+<tbody>
+<tr>
+<td style="width: 200px; vertical-align: top;"><strong>Description:&nbsp;</strong></td>
+<td style="vertical-align: top;">This boxplot visualises the cost of living of each continent. Each box represents the inter-quartile range of the cost of living index in all the cities of the given continent. The white line within the boxes marks the median value of the cost of living index. The lines or 'whiskers' above and below the boxes extend to the maximum and minimum value, respectively, excluding outlier values. The points above and below the whiskers are outliers in the data, the city names can be seen by hovering over the points. Hovering over a box will reveal some of the useful data values.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><strong>Insight:</strong></td>
+<td style="vertical-align: top;">The continent with the highest cost of living and the least variance is Oceania, this is due to the smaller sample size of 15 cities in only 2 countries; 
+Australia and New Zealand, which are both highly-developed countries. If the smaller cities of the island nations of polynesia like Fiji and Samoa were included the data would be very different. For example, Apia, 
+the capital city of Samoa has a <a href="https://www.xpatulator.com/cost-of-living-review/Samoa-Apia_170.cfm#:~:text=The%20cost%20of%20living%20for,(New%20York%20%3D100)." target="_blank" rel="noopener">Cost of Living Index of 63.56</a> as of 2022.<p/>
+The continent with the greatest disparity in the cost of living between cities is Europe. Europe has both the largest inter-quartile range and the greatest difference in cost of living index between two cities. 
+The poorer Eastern European countries such as Ukraine and Bosnia and Herzegovina are far cheaper to live in than the scandinavian countries and the UK and Ireland, 
+which are all among the most <a href="https://en.wikipedia.org/wiki/List_of_countries_by_Human_Development_Index" target="_blank" rel="noopener">highly-developed in the world.</a><p/>
+Asia looks to be the continent with the lowest cost of living, as it has a median of just over 41 whereas Africa's is 45.8. The spread of Asia's cost of living is greater than Africa's though and there are multiple outliers above the box. We can see that there are more Asian cities that are cheaper to live in than African cities but the most expensive cities in Asia are far more expensive than those of Africa.<p/>
+Another point worth mentioning is the outlier of Hamilton, Bermuda in North America. This extreme outlier is mostly caused by the incredibly high import taxes on goods in Bermuda, which is an island nation and so, needs to import a lot of goods leading to a very high cost of living.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><strong>Design considerations:</strong></td>
+<td style="vertical-align: top;">A boxplot was used as it is a lot easier to see the averages and spread of the quantitative data within each continent.
+Each box spans the range in which 50% of the cities are located, giving the reader a good idea of the average cost of living in a given continent. 
+The vertical difference from each box is very easy to understand and take away some information quickly. The extent of the whiskers was decreased as it better visualises the range of costs while excluding outliers. <p/>
+A <a href="https://github.com/CameronCarton/cost-of-living-2018-data/blob/main/histoPractice.png" target="_blank" rel="noopener">histogram</a> was considered to show the median and deviation of the cost of living within the continents but a boxplot shows this information more succinctly and intuitively.<p/>
+The x-axis labels were kept without rotation for easier reading as there was enough space between each label.<p/>
+For the colours of the boxes, we looked for <a href="https://www.shutterstock.com/image-vector/seven-continents-map-asia-yellow-africa-494828389" target="_blank" rel="noopener">typical colours</a> used to display each continent without confusion. There is <a href="https://www.sidmartinbio.org/what-are-the-colours-of-each-continent/" target="_blank" rel="noopener">no consensus</a> on the best colour to represent each continent so one of the popular configurations was chosen. </td>
+</tr>
+<tr>
+<td style="width: 200px; vertical-align: top;"><strong>Data filtering and transformation:&nbsp;</strong></td>
+<td style="vertical-align: top;">We added a new column to the dataset which stores the continent that each city is located in using Python </td>
+</tr>
+</tbody>
+</table>
+<script type="text/javascript">(function(){window['__CF$cv$params']={r:'6de76ef4f9aa0857',m:'ou9BjsXIfiM2q1YCvvmBoFv0Vq0Dt5XQRwgvZxW.Goo-1645021402-0-Absg1OmX9BinquRzsGH3tdv7dPJPGPKp9U4aOVfGlDUCzkBAkKP7XddMCx+WfAoFb0Z5J43CGIjUV5Z3JZdiiPcHi2BSxzvqcjmBK9p88FoT2/0fGPAQAf1vIfbRVcjLb0UafxSJqB734ErijlIWmticeKDk4cTrChkGz+69lXm1Zb61xQ3xeN/PCzoOR8fp7g==',s:[0x4b4734a763,0x41c34bb17e],}})();</script></body>
+</html>

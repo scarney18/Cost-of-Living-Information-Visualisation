@@ -1,0 +1,98 @@
+<html>
+<head>
+    <title>Sean Carney / Cameron Carton : Assignment 1</title>
+	<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+<script async src='/cdn-cgi/bm/cv/669835187/api.js'></script></head>
+<body>
+    <table style="width: 850px" cellspacing="5" cellpadding="5">
+    <tbody>
+    <tr>
+    <td style="width: 200px; vertical-align: top;"><strong>Names:&nbsp;</strong></td>
+    <td style="vertical-align: top;">Sean Carney / Cameron Carton</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Student Numbers:</strong></td>
+    <td style="vertical-align: top;">19349341 / 19720959</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Dataset description:</strong></td>
+    <td style="vertical-align: top;">
+    <p><a href="https://www.kaggle.com/andytran11996/cost-of-living?select=cost-of-living-2018.csv" target="_blank" rel="noopener">Cost of Living by City 2018 Dataset</a>.</p>
+    <p>This dataset contains information pertaining to the cost of living in various cities around the world. The Indexes in the data show the relative Cost of Living(Plus Rent), Groceries Prices, Restaurant Prices, Rent, and the Local Purchasing Power of each city. The indexes are measured relative to New York City, USA which has an index of 100.00 in every category. </p>
+    </td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Initial questions:</strong></td>
+    <td style="vertical-align: top;">Which variables have the strongest correlation with cost of living?, Why do these variables correlate strongly with the cost of living?</td>
+    </tr>
+    </tbody>
+    </table>
+    <hr />
+  <div id="vis" class="container"></div>
+  <script>
+    const spec ={
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": {
+    "url": "https://raw.githubusercontent.com/scarney18/Cost-of-Living-Data/main/cost-of-living-2018.csv",
+    "format": {"type": "csv"}
+  },
+  "mark": "circle",
+  "config": {"legend": {"orient": "bottom-right"}},
+  "width": 500,
+  "height": 500,
+  "encoding": {
+    "x": {
+      "field": "Groceries Index",
+      "type": "quantitative",
+      "title": "Groceries Index"
+    },
+    "y": {
+      "field": "Cost of Living Index",
+      "type": "quantitative",
+      "title": "Cost of Living Index"
+    },
+    "size": {"field": "Restaurant Price Index", "type": "quantitative"},
+    "color": {
+      "field": "Restaurant Price Index",
+      "type": "quantitative",
+      "scale": {"scheme": "darkred"}
+    },
+    "tooltip": {"field": "City"}
+  }
+};
+
+    vegaEmbed("#vis", spec, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+  </script>
+    <hr />
+<table style="width: 850px;" cellspacing="5" cellpadding="5">
+<tbody>
+<tr>
+<td style="width: 200px; vertical-align: top;"><strong>Description:&nbsp;</strong></td>
+<td style="vertical-align: top;">The scatterplot shows the relationship between the Cost of Living, Groceries, and Restaurant price in Cities. Each point represents a city. The colour and size of a point represents the Restaurant price, starting at black, leading into a small red point, then a larger orange point, and an even larger yellow point. Hovering over a point will reveal the associated city’s name.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><strong>Insight:</strong></td>
+<td style="vertical-align: top;">The groceries index and restaurant price index were found to be the best indication of the cost of living index. The scatter plot clearly shows the general trend for the cost of living to increase with the increasing cost of groceries. The increasing size of the points as each of these increases as well as the colour shifting to yellow visualises the correlation of restaurant prices and cost of living. <p />
+There doesn’t appear to be any extreme outliers in the dataset. All the points generally follow the same trend. Although not the most surprising outcome (higher cost of living indicates higher grocery and restaurant prices), what is interesting is that the graph does look as though it is beginning to curve, possible meaning the prices of groceries begin to taper past a certain point of cost of living. <p />
+The direct correlation between groceries and cost of living is obvious. The best reasoning we can offer is that <a href="https://www.vox.com/2014/7/6/5874499/map-heres-how-much-every-country-spends-on-food" target="_blank" rel="noopener">around 20-30%</a> of household income is spent on food for most countries, but some countries spend significantly less or more.
+
+</tr>
+<tr>
+<td style="vertical-align: top;"><strong>Design considerations:</strong></td>
+<td style="vertical-align: top;">A scatter plot was chosen as it is the best way to show the correlation between the 3 quantitative datasets.<p/>
+The groceries and restaurant price indexes were chosen as the best indicators after creating <a href="https://github.com/scarney18/Cost-of-Living-Data/blob/main/IndexCompare.PNG" target="_blank" rel="noopener">scatter plots</a> of cost of living index against all available indexes. These scatter plots confirm that groceries and restaurant prices correlate the strongest with the cost of living.<p/>
+Cost of Living Index was chosen instead of Cost of Living Plus Rent because it seems obvious that rent would impact the latter greatest.<p/>
+The size and colour of the points was chosen to display the Restaurant Price Index because it is the most clear visual way to display all 3 variables. 
+Using both size and colour is useful because it makes the general trend more apparent which is what we aimed to do, although it does cost the readability of the individual points.<p/>
+The colour scheme we chose was better than many of the alternatives because it had a distinct gradient which makes understanding the plot easier. 
+</tr>
+<tr>
+<td style="width: 200px; vertical-align: top;"><strong>Data filtering and transformation:&nbsp;</strong></td>
+<td style="vertical-align: top;">No data filtering or transformation was needed as there were no significant outliers or missing data.</td>
+</tr>
+</tbody>
+</table>
+<script type="text/javascript">(function(){window['__CF$cv$params']={r:'6de849235ca64043',m:'z71Mb4OXLAnXCyGWzk8cw5.vBSZlbIF0RE_QMudlUlw-1645030339-0-ASr3K/LjlqdM3HegPObqIYMBa3jG3xu5r9napMCQ9GRLYBai1CVkSIE1gMG8/yShoWQGwKRSN5HrZ96bDqqzUGew1AnNQCjkf4stUPb38+ewI0+lhP9TPR80L591CLJdsxMa6OisSoQQAX2H8N2jwSIA585dZGlQ4mn+CLmRvV3+pDKwE/GARE89b8VKLJAb2Q==',s:[0x08147b0957,0xf8e0d1ff0a],}})();</script></body>
+</html>

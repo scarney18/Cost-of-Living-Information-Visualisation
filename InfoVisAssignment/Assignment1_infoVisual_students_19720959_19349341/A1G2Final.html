@@ -1,0 +1,116 @@
+<html>
+<head>
+    <title>Sean Carney / Cameron Carton : Assignment 1</title>
+	<script src="https://cdn.jsdelivr.net/npm/vega@5"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vega-lite@5"></script>
+	<script src="https://cdn.jsdelivr.net/npm/vega-embed@6"></script>
+<script async src='/cdn-cgi/bm/cv/669835187/api.js'></script></head>
+<body>
+    <table style="width: 850px" cellspacing="5" cellpadding="5">
+    <tbody>
+    <tr>
+    <td style="width: 200px; vertical-align: top;"><strong>Names:&nbsp;</strong></td>
+    <td style="vertical-align: top;">Sean Carney / Cameron Carton</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Student Numbers:</strong></td>
+    <td style="vertical-align: top;">19349341 / 19720959</td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Dataset description:</strong></td>
+    <td style="vertical-align: top;">
+    <p><a href="https://www.kaggle.com/andytran11996/cost-of-living?select=cost-of-living-2018.csv" target="_blank" rel="noopener">Cost of Living by City 2018 Dataset</a>.</p>
+    <p>This dataset contains information pertaining to the cost of living in various cities around the world. The Indexes in the data show the relative Cost of Living(Plus Rent), Groceries Prices, Restaurant Prices, Rent, and the Local Purchasing Power of each city. The indexes are measured relative to New York City, USA which has an index of 100.00 in every category. </p>
+    </td>
+    </tr>
+    <tr>
+    <td style="vertical-align: top;"><strong>Initial questions:</strong></td>
+    <td style="vertical-align: top;">Which country has the highest and lowest local purchasing power?, How does the cost of living vary within these countries?</td>
+    </tr>
+    </tbody>
+    </table>
+    <hr />
+  <div id="vis" class="container"></div>
+  <script>
+      const spec = {
+          "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+          "data": {
+              "url": "https://raw.githubusercontent.com/CameronCarton/cost-of-living-2018-data/main/cost-of-living-2018.csv"
+          },
+          "title": {
+              "text": "Local Purchasing Power, Cost of Living Plus Rent and Groceries Index of Countries",
+              "fontSize": 20,
+              "offset": 20,
+              "dx": 450
+          },
+          "repeat": {
+              "column": [
+                  "Local Purchasing Power Index",
+                  "Cost of Living Plus Rent Index",
+                  "Groceries Index"
+              ]
+          },
+          "spec": {
+              "width": 300,
+              "height": 900,
+              "mark": "bar",
+              "encoding": {
+                  "y": {
+                      "field": "Country",
+                      "type": "ordinal",
+                      "axis": { "title": null },
+                      "sort": {
+                          "op": "mean",
+                          "field": { "repeat": "column" },
+                          "order": "descending"
+                      }
+                  },
+                  "x": {
+                      "field": { "repeat": "column" },
+                      "type": "quantitative",
+                      "aggregate": "mean"
+                  },
+                  "color": {
+                      "condition": [
+                          { "test": "datum.Country == 'Switzerland'", "value": "#d45d7c" },
+                          { "test": "datum.Country == 'Cuba'", "value": "#2596be" }
+                      ],
+                      "value": "#bdbdbd"
+                  }
+              }
+          },
+          "config": {}
+      }
+
+    vegaEmbed("#vis", spec, {mode: "vega-lite"}).then(console.log).catch(console.warn);
+  </script>
+    <hr />
+<table style="width: 850px;" cellspacing="5" cellpadding="5">
+<tbody>
+<tr>
+<td style="width: 200px; vertical-align: top;"><strong>Description:&nbsp;</strong></td>
+<td style="vertical-align: top;">The three bar charts show the mean average Local Purchasing Power, Cost of Living Plus Rent and Cost of Groceries of different countries. Each bar is sorted in descending order from maximum to minimum value for each attribute. The Countries Switzerland and Cuba are highlighted in bright colours. Switzerland highlighted in red, Cuba highlighted in blue.</td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><strong>Insight:</strong></td>
+<td style="vertical-align: top;">The Local Purchasing power chart ranks the countries highest to lowest on the index, from this we can follow the top ranked country (Switzerland) and the lowest ranked country (Cuba) into the other bar charts. Switzerland stays in the top 2 rank for all bar charts. This was a surprise to us, we were unaware of the booming economy in Switzerland, these charts 
+    indicate that not only is the cost of living and price of groceries extremely high in the country, but for the local purchasing power to be ranked number 1, the average citizen must be earning a high wage. On the other end of the spectrum, Cuba is at the bottom of the local purchasing power index. Cuba’s cost of living plus rent is significantly higher than the cost of groceries, being 
+    ranked lowest in local purchasing power indicates that the average citizens wage is relatively low compared to the cost of living in the country. This shouldn’t be too surprising, if the country has a low local purchasing power, it is most likely due to a high cost of living relative to the average wage. </td>
+</tr>
+<tr>
+<td style="vertical-align: top;"><strong>Design considerations:</strong></td>
+<td style="vertical-align: top;">
+    Bar charts were our first choice for displaying a large amount of quantitative data. We put the Country field into rows as it would have been difficult to display all the countries in columns, cluttering the graph with angled text. The Countries were sorted in descending order based on the values of each attribute. This increases the graphs readability and makes comparisons between 2 or more countries significantly easy. It is obvious which countries are highest and lowest in each field. <p />
+    Two of the countries are brightly coloured (Switzerland, Cuba), this makes it easier to compare the ranking of the country across the three fields. We chose red as the colour for Switzerland because it is the <a href="https://en.wikipedia.org/wiki/Switzerland" target="_blank" rel="noopener">main colour of their flag</a>  and blue was chosen for Cuba as it is a <a href="https://en.wikipedia.org/wiki/Cuba" target="_blank" rel="noopener">colour in their flag</a>. Both red and blue are contrasting colours making them easy to distinguish between, even if the viewer is partially colorblind. Having Switzerland and Cuba highlighted allows for easy comparison between the two opposites of the Local Purchasing power chart, Switzerland being the highest ranked, Cuba being the lowest ranked. Their positions in the following charts can then be easily followed. <p />
+    Having a visualization containing multiple charts makes it easier to compare a larger amount of data. Although more attention is required by the viewer to understand all three charts, sorting each chart according to it’s quantitative attribute makes it easier to distinguish the countries with minimum and maximum values. However, by sorting each chart individually, its harder to follow the statistics of a single country through all three charts. Alternatively, We tried creating a bar chart with the 3 statistics for each country <a href="https://vega.github.io/vega-lite/examples/bar_grouped.html" target="_blank" rel="noopener">grouped together</a>, with each stat being colour coded. However, We felt this made it more difficult to compare the maximum and minimum values of attributes of different countries, as well as the bar chart being obnoxiously long. Originally, we considered displaying the 3 attributes for each individual city, however, after experimenting in Tableau and Vega lite, the charts were <a href="https://github.com/CameronCarton/cost-of-living-2018-data/blob/main/long%20city%20graph.png" target="_blank" rel="noopener">extremely long</a> making them difficult to read, having to scroll multiple times to see the top and bottom of the chart. <p />
+    Although the rows of Countries are tightly packed, each country name is easily readable. This was a tradeoff, having tighter packed rows allows the visualization to be shorter in length and viewable on a smaller screen without the need for scrolling, if the rows were less packed together, this would make the visualization longer than a typical screen size, making it more difficult to read.
+</td>
+</tr>
+<tr>
+<td style="width: 200px; vertical-align: top;"><strong>Data filtering and transformation:&nbsp;</strong></td>
+<td style="vertical-align: top;">Initially added a “Country” column to the dataset that contained the Country names only, splitting the “City” column, which contains both City and Country. This was relatively easy in Tableau, there are built in functions to do this. The Country column did initially have different American states listed instead of “United States” as the country. We made sure to change this and replace any American states with “United States” using Tableau.</td>
+</tr>
+</tbody>
+</table>
+<script type="text/javascript">(function(){window['__CF$cv$params']={r:'6de76ef4f9aa0857',m:'ou9BjsXIfiM2q1YCvvmBoFv0Vq0Dt5XQRwgvZxW.Goo-1645021402-0-Absg1OmX9BinquRzsGH3tdv7dPJPGPKp9U4aOVfGlDUCzkBAkKP7XddMCx+WfAoFb0Z5J43CGIjUV5Z3JZdiiPcHi2BSxzvqcjmBK9p88FoT2/0fGPAQAf1vIfbRVcjLb0UafxSJqB734ErijlIWmticeKDk4cTrChkGz+69lXm1Zb61xQ3xeN/PCzoOR8fp7g==',s:[0x4b4734a763,0x41c34bb17e],}})();</script></body>
+</html>
